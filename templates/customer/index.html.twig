@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customers{% endblock %}
+
+{% block body %}
+    <div class="form-group content-bar">
+        <h3>Users</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.name }}</td>
+                    <td>
+                        {# <a href="{{ path('customer_show', {'id': customer.id}) }}">show</a> #}
+                        <a href="{{ path('customer_edit', {'id': customer.id}) }}" class="btn">Edit</a>
+                        {{ include('customer/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('customer_new') }}">Create new User</a>
+    </div>
+{% endblock %}

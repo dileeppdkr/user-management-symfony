@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row content-bar">
+        <div class="col-md-12">
+            <table class="table table-filter">
+                <thead>
+                    <tr>
+                        <th>Users</th>
+                        <th>Groups</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    
+                        <tr>
+                        	<td>
+                        		<select name="user" id="user">
+                        			<option value="">Select User</option>
+                        			{% for customer in customers %}
+								        <option value="{{customer.id}}">{{customer.name}}</option>
+								    {% endfor %}
+							    </select>
+                        	</td>
+
+                        	<td>
+                        		<select name="group" id="group">
+                        			<option value="">Select Group</option>
+                        			{% for group in groups %}
+								        <option value="{{group.id}}">{{group.name}}</option>
+								    {% endfor %}
+							    </select>
+                        	</td>
+                            
+                            <td>
+                            	<input type="button" value="Add" id="add_to_group" />
+                            </td>
+                        </tr>
+                    {% for customer in customers %}
+
+                    {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $('#add_to_group').click(function () {
+            var group_id = $('#group').val();
+            var user_id = $('#user').val();
+            if(user_id == "" || group_id ==""){
+            	alert('Select user & group to add');
+            	return false;
+            }
+            // Request the neighborhoods of the selected city.
+            $.ajax({
+                url: "{{ path('add_to_group') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    customer_id: user_id,
+                    category_id: group_id
+                },
+                success: function (data) {
+                    alert(data.message);
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+

@@ -1,0 +1,18 @@
+index:
+   path: /
+   controller: App\Controller\AdminController::index
+customers:
+   path: /customers
+   controller: App\Controller\CustomerController::index
+add_users_to_group:
+   path: /add_users_to_group
+   controller: App\Controller\AdminController::admin_add_user_to_group
+   methods:  GET
+add_to_group:
+   path: /add_to_group
+   controller: App\Controller\AdminController::admin_add_to_group
+   methods:  POST
+remove_from_group:
+   path: /remove_from_group
+   controller: App\Controller\AdminController::admin_remove_from_group
+   methods:  POST

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% set users_in_group = [] %}
+{% block title %}Groups{% endblock %}
+
+{% block body %}
+    <div class="form-group">
+        <h3>Groups</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                {% for user_groups in category.getCustomerGroups %}
+                    {% for group in user_groups.getCategoryId %}
+                        {% set users_in_group = users_in_group|merge([group.getId()]) %}
+                    {% endfor %}
+                {% endfor %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        {# <a href="{{ path('category_show', {'id': category.id}) }}">show</a> #}
+                        <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn">Edit</a>
+                        {% if category.id not in users_in_group%}
+                            {{ include('category/_delete_form.html.twig') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('category_new') }}">Create new Group</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customer index{% endblock %}
+
+{% block body %}
+    <div class="row content-bar">
+        <div class="col-md-12">
+            <table class="table table-filter">
+                <thead>
+                    <tr>
+                        <th>Users</th>
+                        <th>User Associated Groups</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    {% for user in users %}
+                        <tr>
+                            <td>
+                                {{user.name}}
+                            </td>
+                            <td>
+                            {% for user_groups in user.getCustomerGroups %}
+                                {% for group in user_groups.getCategoryId %}
+                                    {{group.getName()}}
+                                    <input type="button" value="Remove" group_id="{{user_groups.id}}" customer_id="{{user.id}}" category_id="{{group.id}}" class="delete_from_group" />
+                                    <br/>
+                                {% endfor %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $('.delete_from_group').click(function () {
+            var group_id = $(this).attr('group_id')
+            var customer_id = $(this).attr('customer_id')
+            var category_id = $(this).attr('category_id')
+            //alert(group_id);
+            // Request the neighborhoods of the selected city.
+            $.ajax({
+                url: "{{ path('remove_from_group') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    group_id: group_id,
+                    customer_id: customer_id,
+                    category_id: category_id
+                },
+                success: function (data) {
+                    if(data.message == "Success!"){
+                        alert(data.message);
+                        window.location.reload();
+                    }
+                    
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+    </script>
+{% endblock %}
