@@ -1,14 +1,14 @@
 # user-management-symfony
 user management system
 
-## Things you may want to cover:
+## Things you need to install:
 
-* Symfony
-	Symfony 4.2.1
+* Framework
+	- Symfony 4.2.1
 * PHP
-	"php": "^7.1.3"
+	- "php": "^7.1.3"
 * Database
-	PostgreSQL 9.6.5
+	- PostgreSQL 9.6.5
 * System dependencies
 	- doctrine
 	- composer
